@@ -74,6 +74,8 @@ things=["``I'm the best me I can be.''",
         "``I take responsibility''",
         "``I'm going to give you the benefit of the doubt.''",
         "``Shambles!''",
+        "``110%''",
+        "``At the end of the day''",
         "Karen raises eyebrow",
         "Karen rolls eyes",
         "Karen calls upon someones bullshit",
@@ -100,9 +102,10 @@ things=["``I'm the best me I can be.''",
         "Someone cancels a telephone call in the middle of a conversation",
         "Lord Sugar talking from really far away in a building",
         "Lord Sugar talking from so far away, they've had to put him on a monitor",
-        "Project Manager drank the Kool-Aid and now fanatically believes in #TEAM :'D",
+        "Project Manager drank the Kool-Aid and now fanatically believes in \#TEAM :'D",
         "Project Manager has a breakdown and admits they aren't Superman",
-        "Awkward moment when candidates at the house slag off the person who just returned"]
+        "Awkward moment when candidates at the house slag off the person who just returned",
+        "Candidate compares self to Lord Sugar"]
 
 dim = int(sys.argv[1])
 thing = sys.argv[2]
