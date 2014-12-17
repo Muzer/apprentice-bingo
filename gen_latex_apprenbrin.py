@@ -179,7 +179,8 @@ with open('bingo.tex', 'w') as f:
         for j in range(dim):
             item = random.choice(names if thing == "names" else
                     interviews if thing == "interviews" else things)
-            (names if thing == "names" else things).remove(item)
+            (names if thing == "names" else interviews if thing == "interviews"
+                    else things).remove(item)
             f.write(item)
             if j + 1 != dim:
                 f.write(" & ")
