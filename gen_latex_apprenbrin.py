@@ -27,6 +27,54 @@ names=["Bianca",
        "Solomon",
        "Steven"]
 
+interviews=["``I'm the best me I can be.''",
+            "``I've come from nothing.''",
+            "``I didn't need no education.''",
+            "``I'm in this to win.''",
+            "``Are you a one trick pony?''",
+            "``You're not listening to me!''",
+            "``The bottom line is [...]''",
+            "``I'm a born leader!''",
+            "``This was a disastrous interview.''",
+            "``X is full of bullshit!''",
+            "``It's so unfair!''",
+            "``It says here on your CV [...]''",
+            "``Please let me finish.''",
+            "``You're interrupting me!''",
+            "``I'm not a passenger.''",
+            "``The gloves are coming off.''",
+            "``You've got to man-up!''",
+            "``I mean business.''",
+            "``The sky's the limit.''",
+            "``I'm exactly what it says on the tin''",
+            "``CAN I JUST SAY...''",
+            "``LOOK, [...]''",
+            "``I don't want to hear from you any more/I'm fed up with hearing you.''",
+            "``Shambles!''",
+            "``110\%''",
+            "``At the end of the day''",
+            "Karen calls upon someones bullshit",
+            "Running to phone in PJs",
+            "A reference to a tough upbringing",
+            "Lord Sugar makes a terrible terrible joke",
+            "Fog happens to coincide with early morning minivans-driving-away-from-house shot",
+            "Blatant discrepancy between fired candidate's clothing with departing taxi shots",
+            "Candidate uses the third person",
+            "Someone forgets to call Alan Sugar a lord",
+            "Lord Sugar gets angry because someone forgets to call him a Lord",
+            "Lord Sugar arrives unannounced into the house",
+            "Lord Sugar talking from really far away in a building",
+            "Lord Sugar talking from so far away, they've had to put him on a monitor",
+            "Candidate has a breakdown and admits they aren't Superman",
+            "Candidate compares self to Lord Sugar",
+            "Candidate cries",
+            "Candidate states that the day is the worst of their life",
+            "``Rather you than me''",
+            "Candidate makes impossible promise that interviewer calls on",
+            "Interviewer insults candidate's background"]
+
+
+
 things=["``I'm the best me I can be.''",
         "``I've come from nothing.''",
         "``I didn't need no education.''",
@@ -129,7 +177,8 @@ with open('bingo.tex', 'w') as f:
 
     for i in range(dim):
         for j in range(dim):
-            item = random.choice(names if thing == "names" else things)
+            item = random.choice(names if thing == "names" else
+                    interviews if thing == "interviews" else things)
             (names if thing == "names" else things).remove(item)
             f.write(item)
             if j + 1 != dim:
