@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-import sys
 import random
+import argparse
+import glob
 import subprocess
-
 # Plz pass numbe and names for names or anything else for things
 # Outputs to bingo.tex/bingo.pdf
 
-names=["Aisha",
+contestants=["Aisha",
        "April",
        "Brett",
        "Charleine",
@@ -73,7 +73,7 @@ interviews=["``I'm the best me I can be.''",
 
 
 
-things=["``I'm the best me I can be.''",
+tasks=["``I'm the best me I can be.''",
         "``I've come from nothing.''",
         "``I didn't need no education.''",
         "``Let me take charge.''",
@@ -167,12 +167,12 @@ things=["``I'm the best me I can be.''",
         "Awkward moment when candidates at the house slag off the person who just returned",
         "Candidate compares self to Lord Sugar"]
 
-dim = int(sys.argv[1])
-thing = sys.argv[2]
 
-with open('bingo.tex', 'w') as f:
-    f.write(r"""\documentclass[a4paper,12pt]{article}
+def create_table(size, table, name="bingo.tex"):
+    with open(name, 'w') as f:
+        f.write(r"""\documentclass[a4paper,12pt]{article}
 \usepackage{tabularx}
+\nofiles
 \title{Apprehended Swalies bingo}
 \author{Murray Colpman, Tom Leese, Piers Morgans-Wicks}
 \setlength{\tabcolsep}{18pt}
@@ -183,26 +183,78 @@ with open('bingo.tex', 'w') as f:
 \begin{center}
 \begin{tabularx}{\linewidth}{|""")
 
-    for i in range(dim):
-        f.write(r"X|")
-    f.write(r"""}
+        for i in range(size):
+            f.write(r"X|")
+        f.write(r"""}
 \hline
 """)
 
-    for i in range(dim):
-        for j in range(dim):
-            item = random.choice(names if thing == "names" else
-                    interviews if thing == "interviews" else things)
-            (names if thing == "names" else interviews if thing == "interviews"
-                    else things).remove(item)
-            f.write(item)
-            if j + 1 != dim:
-                f.write(" & ")
-        f.write(r""" \\ \hline
+        for i in range(size):
+            for j in range(size):
+                item = random.choice(table)
+                table.remove(item)
+                f.write(item)
+                if j + 1 != size:
+                    f.write(" & ")
+            f.write(r""" \\ \hline
 """)
-    f.write(r"""\end{tabularx}
+        f.write(r"""\end{tabularx}
 \end{center}
 \end{document}
 """)
 
-subprocess.call(["pdflatex", "bingo.tex"])
+def create_contestant_table(size, prefix=''):
+    create_table(size, contestants, prefix+'contestants.tex')
+
+def create_interview_table(size, prefix=''):
+    create_table(size, interviews, prefix+'interviews.tex')
+
+def create_task_table(size, prefix=''):
+    create_table(size, tasks, prefix+'tasks.tex')
+
+def create_all_tables(size, prefix=''):
+    create_contestant_table(size, prefix)
+    create_interview_table(size, prefix)
+    create_task_table(size, prefix)
+
+
+def create_tex_files(args):
+    tables = args.tables if args.tables else None
+    players = args.players if args.players else None
+
+    if players is None:
+        if tables is None:
+            create_all_tables(args.size)
+        else:
+            if 'contestants' in tables:
+                create_contestant_table(args.size)
+            if 'interviews' in tables:
+                create_interview_table(args.size)
+            if 'tasks' in tables:
+                create_task_table(args.size)
+    else:
+        for p in players:
+            if tables is None:
+                create_all_tables(args.size, prefix=p+'_')
+            else:
+                if 'contestants' in tables:
+                    create_contestant_table(args.size, prefix=p+'_')
+                if 'interviews' in tables:
+                    create_interview_table(args.size, prefix=p+'_')
+                if 'tasks' in tables:
+                    create_task_table(args.size, prefix=p+'_')
+
+def create_pdfs():
+    for g in glob.glob('*.tex'):
+        #print('Creating pdf for {}'.format(g))
+        subprocess.call(["pdflatex", g])
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-p', '--players', nargs='+', help='Names of the bingo players.')
+parser.add_argument('-t', '--tables', choices=['contestants', 'interviews', 'tasks'], nargs='+', help='The tables to generate.')
+parser.add_argument('-s', '--size', nargs='?', help='Size of the table to generate. Recommend: 3.', type=int, default=3)
+args = parser.parse_args()
+
+if __name__ == '__main__':
+    create_tex_files(args)
+    create_pdfs()
