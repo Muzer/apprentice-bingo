@@ -168,11 +168,11 @@ tasks=["``I'm the best me I can be.''",
         "Candidate compares self to Lord Sugar"]
 
 
-def create_table(size, table, name="bingo.tex"):
-    with open(name, 'w') as f:
+def create_table(size, table, name="bingo.tex", directory=''):
+    table = table[:]
+    with open(directory+name, 'w') as f:
         f.write(r"""\documentclass[a4paper,12pt]{article}
 \usepackage{tabularx}
-\nofiles
 \title{Apprehended Swalies bingo}
 \author{Murray Colpman, Tom Leese, Piers Morgans-Wicks}
 \setlength{\tabcolsep}{18pt}
@@ -180,8 +180,9 @@ def create_table(size, table, name="bingo.tex"):
 \begin{document}
 \maketitle
 \section{Bingo!}
+%s
 \begin{center}
-\begin{tabularx}{\linewidth}{|""")
+\begin{tabularx}{\linewidth}{|""" % name.split('.')[0].replace('_', '\_'))
 
         for i in range(size):
             f.write(r"X|")
@@ -203,19 +204,19 @@ def create_table(size, table, name="bingo.tex"):
 \end{document}
 """)
 
-def create_contestant_table(size, prefix=''):
-    create_table(size, contestants, prefix+'contestants.tex')
+def create_contestant_table(size, prefix='', directory=''):
+    create_table(size, contestants, name=prefix+'contestants.tex', directory=directory)
 
-def create_interview_table(size, prefix=''):
-    create_table(size, interviews, prefix+'interviews.tex')
+def create_interview_table(size, prefix='', directory=''):
+    create_table(size, interviews, name=prefix+'interviews.tex', directory=directory)
 
-def create_task_table(size, prefix=''):
-    create_table(size, tasks, prefix+'tasks.tex')
+def create_task_table(size, prefix='', directory=''):
+    create_table(size, tasks, name=prefix+'tasks.tex', directory=directory)
 
-def create_all_tables(size, prefix=''):
-    create_contestant_table(size, prefix)
-    create_interview_table(size, prefix)
-    create_task_table(size, prefix)
+def create_all_tables(size, prefix='', directory=''):
+    create_contestant_table(size, prefix=prefix, directory=directory)
+    create_interview_table(size, prefix=prefix, directory=directory)
+    create_task_table(size, prefix=prefix, directory=directory)
 
 
 def create_tex_files(args):
@@ -224,37 +225,42 @@ def create_tex_files(args):
 
     if players is None:
         if tables is None:
-            create_all_tables(args.size)
+            create_all_tables(args.size, directory=args.output)
         else:
             if 'contestants' in tables:
-                create_contestant_table(args.size)
+                create_contestant_table(args.size, directory=args.output)
             if 'interviews' in tables:
-                create_interview_table(args.size)
+                create_interview_table(args.size, directory=args.output)
             if 'tasks' in tables:
-                create_task_table(args.size)
+                create_task_table(args.size, directory=args.output)
     else:
         for p in players:
             if tables is None:
-                create_all_tables(args.size, prefix=p+'_')
+                create_all_tables(args.size, prefix=p+'_', directory=args.output)
             else:
                 if 'contestants' in tables:
-                    create_contestant_table(args.size, prefix=p+'_')
+                    create_contestant_table(args.size, prefix=p+'_', directory=args.output)
                 if 'interviews' in tables:
-                    create_interview_table(args.size, prefix=p+'_')
+                    create_interview_table(args.size, prefix=p+'_', directory=args.output)
                 if 'tasks' in tables:
-                    create_task_table(args.size, prefix=p+'_')
+                    create_task_table(args.size, prefix=p+'_', directory=args.output)
 
-def create_pdfs():
-    for g in glob.glob('*.tex'):
+def create_pdfs(args):
+    directory = args.output
+    for g in glob.glob(directory+'*.tex'):
         #print('Creating pdf for {}'.format(g))
-        subprocess.call(["pdflatex", g])
+        if directory == '':
+            subprocess.call(["pdflatex", g])
+        else:
+            subprocess.call(['pdflatex', '-output-directory', directory, g])
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--players', nargs='+', help='Names of the bingo players.')
 parser.add_argument('-t', '--tables', choices=['contestants', 'interviews', 'tasks'], nargs='+', help='The tables to generate.')
 parser.add_argument('-s', '--size', nargs='?', help='Size of the table to generate. Recommend: 3.', type=int, default=3)
+parser.add_argument('-o', '--output', help='Output files to a specific directory.', default='')
 args = parser.parse_args()
 
 if __name__ == '__main__':
     create_tex_files(args)
-    create_pdfs()
+    create_pdfs(args)
