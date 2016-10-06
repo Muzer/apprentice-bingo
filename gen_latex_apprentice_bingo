@@ -4,24 +4,24 @@ import argparse
 import subprocess
 import os
 
-contestants=["Aisha",
-       "April",
-       "Brett",
-       "Charleine",
-       "Dan",
-       "David",
-       "Elle",
-       "Gary",
-       "Jenny",
-       "Joseph",
-       "Mergim",
+contestants=["Alana",
+       "Aleksandra",
+       "Courtney",
+       "Dillon",
+       "Frances",
+       "Grainne",
+       "JD",
+       "Jessica",
+       "Karthik",
+       "Michelle",
+       "Mukai",
        "Natalie",
-       "Richard",
-       "Ruth",
-       "Sam",
-       "Scott",
-       "Selina",
-       "Vana"]
+       "Oliver",
+       "Paul",
+       "Rebecca",
+       "Samuel",
+       "Sofiane",
+       "Trishna"]
 
 interviews=["``I'm the best me I can be.''",
             "``I've come from nothing.''",
@@ -172,7 +172,7 @@ def create_table(size, table, name="bingo.tex", directory=''):
         f.write(r"""\documentclass[a4paper,12pt]{article}
 \usepackage{tabularx}
 \title{Apprehended Swalies bingo}
-\author{Murray Colpman, Tom Leese, Piers Morgans-Wicks}
+\author{Murray Colpman, Tom Leese, Alice Hawke}
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{2}
 \begin{document}
