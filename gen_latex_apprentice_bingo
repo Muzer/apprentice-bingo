@@ -55,7 +55,7 @@ interviews=["``I'm the best me I can be.''",
             "Lord Sugar makes a terrible terrible joke",
             "Fog happens to coincide with early morning minivans-driving-away-from-house shot",
             "Blatant discrepancy between fired candidate's clothing with departing taxi shots",
-            "Candidate uses the third person",
+            "Candidate refers to themself in the third person",
             "Someone forgets to call Alan Sugar a lord",
             "Lord Sugar gets angry because someone forgets to call him a Lord",
             "Lord Sugar arrives unannounced into the house",
@@ -67,7 +67,9 @@ interviews=["``I'm the best me I can be.''",
             "Candidate states that the day is the worst of their life",
             "``Rather you than me''",
             "Candidate makes impossible promise that interviewer calls on",
-            "Interviewer insults candidate's background"]
+            "Interviewer insults candidate's background",
+            "``Bloody''",
+            "Both teams choose to do business with the same person"]
 
 
 
@@ -152,7 +154,7 @@ tasks=["``I'm the best me I can be.''",
         "Fog happens to coincide with early morning minivans-driving-away-from-house shot",
         "Obvious product placement despite the BBC",
         "Blatant discrepancy between fired candidate's clothing with departing taxi shots",
-        "Candidate uses the third person",
+        "Candidate refers to themself in the third person",
         "Someone forgets to call Alan Sugar a lord",
         "Lord Sugar gets angry because someone forgets to call him a Lord",
         "A candidate chases someone down the street to sell them something",
@@ -163,7 +165,11 @@ tasks=["``I'm the best me I can be.''",
         "Project Manager drank the Kool-Aid and now fanatically believes in \#TEAM :'D",
         "Project Manager has a breakdown and admits they aren't Superman",
         "Awkward moment when candidates at the house slag off the person who just returned",
-        "Candidate compares self to Lord Sugar"]
+        "Candidate compares self to Lord Sugar",
+        "Slagging off teammates outside of the boardroom",
+        "``Bloody''",
+        "Both teams choose to do business with the same person",
+        "Stink eye"]
 
 
 def create_table(size, table, name="bingo.tex", directory=''):
