@@ -69,7 +69,8 @@ interviews=["``I'm the best me I can be.''",
             "Candidate makes impossible promise that interviewer calls on",
             "Interviewer insults candidate's background",
             "``Bloody''",
-            "Stink eye"]
+            "Stink eye",
+            "Candidate cries"]
 
 
 
@@ -169,7 +170,9 @@ tasks=["``I'm the best me I can be.''",
         "Slagging off teammates outside of the boardroom",
         "``Bloody''",
         "Both teams choose to do business with the same person",
-        "Stink eye"]
+        "Stink eye",
+        "Candidate cries",
+        "Candidate feels snubbed in leadership bid"]
 
 
 def create_table(size, table, name="bingo.tex", directory=''):
