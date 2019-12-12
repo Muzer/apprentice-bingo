@@ -4,182 +4,55 @@ import argparse
 import subprocess
 import os
 
-contestants=["Alex",
-        "Camilla",
-        "Daniel",
-        "David",
-        "Frank",
-        "Jackie",
-        "Jasmine",
-        "Kayode",
-        "Khadija",
-        "Kurran",
-        "Rick",
-        "Sabrina",
-        "The Other Sarah",
-        "Sarah Ann",
-        "Sian",
-        "Tom"]
-
-interviews=["``I'm the best me I can be.''",
-            "``I've come from nothing.''",
-            "``I didn't need no education.''",
-            "``I'm in this to win.''",
-            "``Are you a one trick pony?''",
-            "``You're not listening to me!''",
-            "``The bottom line is [...]''",
-            "``I'm a born leader!''",
-            "``This was a disastrous interview.''",
-            "``X is full of bullshit!''",
-            "``It's so unfair!''",
-            "``It says here on your CV [...]''",
-            "``Please let me finish.''",
-            "``You're interrupting me!''",
-            "``I'm not a passenger.''",
-            "``The gloves are coming off.''",
-            "``You've got to man-up!''",
-            "``I mean business.''",
-            "``The sky's the limit.''",
-            "``I'm exactly what it says on the tin''",
-            "``CAN I JUST SAY...''",
-            "``LOOK, [...]''",
-            "``I don't want to hear from you any more/I'm fed up with hearing you.''",
-            "``Shambles!''",
-            "``110\%''",
-            "``At the end of the day''",
-            "Karen calls upon someones bullshit",
-            "Running to phone in PJs",
-            "A reference to a tough upbringing",
-            "Lord Sugar makes a terrible terrible joke",
-            "Fog happens to coincide with early morning minivans-driving-away-from-house shot",
-            "Blatant discrepancy between fired candidate's clothing with departing taxi shots",
-            "Candidate refers to themself in the third person",
-            "Someone forgets to call Alan Sugar a lord",
-            "Lord Sugar gets angry because someone forgets to call him a Lord",
-            "Lord Sugar arrives unannounced into the house",
-            "Lord Sugar talking from really far away in a building",
-            "Lord Sugar talking from so far away, they've had to put him on a monitor",
-            "Candidate has a breakdown and admits they aren't Superman",
-            "Candidate compares self to Lord Sugar",
-            "Candidate cries",
-            "Candidate states that the day is the worst of their life",
-            "``Rather you than me''",
-            "Candidate makes impossible promise that interviewer calls on",
-            "Interviewer insults candidate's background",
-            "``Bloody''",
-            "Stink eye",
-            "Candidate cries"]
-
-
-
-tasks=["``I'm the best me I can be.''",
-        "``I've come from nothing.''",
-        "``I didn't need no education.''",
-        "``Let me take charge.''",
-        "``I could have done a better job, but didn't volunteer myself.''",
-        "``I do this in my day job.''",
-        "``I deserve to be project manager.''",
-        "``I'm in this to win.''",
-        "``This is the last time I want to see you here in the [elimination round].''",
-        "``Are you a one trick pony?''",
-        "``You're not listening to me!''",
-        "``Failure is not an option.''",
-        "``I knew we should've gone with my gut instead.''",
-        "``The bottom line is [...]''",
-        "``I'm a born leader!''",
-        "``This was a disastrous task.''",
-        "``X is full of bullshit!''",
-        "Lord Sugar questioning his need for salesmen",
-        "``It's so unfair!''",
-        "``It says here on your CV [...]''",
-        "``WHAT WENT WRONG!?!?!?!''",
-        "``Please let me finish.''",
-        "``I've got a girlfriend/boyfriend.''",
-        "``You're interrupting me!''",
-        "``I'm not a passenger.''",
-        "``CLAUDE tells me [...]''",
-        "``The gloves are coming off.''",
-        "``You've got to man-up!''",
-        "``You lost us this task.''",
-        "``A load of toot.''",
-        "``I mean business.''",
-        "``Lean mean selling machine.''",
-        "``The sky's the limit.''",
-        "``I'm exactly what it says on the tin''",
-        "``You lost us the task''",
-        "``Just give me one more chance''",
-        "``CAN I JUST SAY...''",
-        "``LOOK, [...]''",
-        "``I'm an expert at this, trust me, it's my background''",
-        "``They can't make a decision''",
-        "``I can't lose in this task''",
-        "``X feels threatened by me.''",
-        "``I don't want to hear from you any more/I'm fed up with hearing you.''",
-        "``I take responsibility''",
-        "``I'm going to give you the benefit of the doubt.''",
-        "``Shambles!''",
-        "``110\%''",
-        "``At the end of the day''",
-        "``We're running behind''",
-        "``X (and Y) let the team down''",
-        "``Trust me''",
-        "``The task is a nightmare''",
-        "``I don't deserve to be here''",
-        "Music ripped off from another BBC TV series",
-        "Slow batting of eyelashes",
-        "Candidate admits failure is their fault",
-        "Candidate insists they could make a lot of money with Lord Sugar",
-        "Sexist sales technique",
-        "Karen is bewildered by a candidate",
-        "Candidates stereotype potential customers",
-        "Team fails to meet goal/deadline",
-        "Sale falls through because other team members keeps interrupting",
-        "Flirty sales patter after a sale has already been made",
-        "Karen raises eyebrow",
-        "Karen rolls eyes",
-        "Karen calls upon someones bullshit",
-        "Task-based pun",
-        "Running to phone in PJs",
-        "Claude scowls at someone",
-        "Claude insults candidate or their ideas",
-        "Flirty sales patter fails",
-        "Candidates become romantically involved",
-        "A reference to a tough upbringing",
-        "Lord Sugar gets annoyed about people losing him money",
-        "The prize for winning a task involves going in a helicopter",
-        "People have to run because they have a stupid deadline",
-        "Lord Sugar makes a terrible terrible joke",
-        "DOUBLE FIRING",
-        "Fog happens to coincide with early morning minivans-driving-away-from-house shot",
-        "Obvious product placement despite the BBC",
-        "Blatant discrepancy between fired candidate's clothing with departing taxi shots",
-        "Candidate refers to themself in the third person",
-        "Someone forgets to call Alan Sugar a lord",
-        "Lord Sugar gets angry because someone forgets to call him a Lord",
-        "A candidate chases someone down the street to sell them something",
-        "Lord Sugar arrives unannounced into the house",
-        "Someone cancels a telephone call in the middle of a conversation",
-        "Lord Sugar talking from really far away in a building",
-        "Lord Sugar talking from so far away, they've had to put him on a monitor",
-        "Project Manager drank the Kool-Aid and now fanatically believes in \#TEAM :'D",
-        "Project Manager has a breakdown and admits they aren't Superman",
-        "Awkward moment when candidates at the house slag off the person who just returned",
-        "Candidate compares self to Lord Sugar",
-        "Slagging off teammates outside of the boardroom",
-        "``Bloody''",
-        "Both teams choose to do business with the same person",
-        "Stink eye",
-        "Candidate cries",
-        "Candidate feels snubbed in leadership bid"]
-
+phrases = [
+        "``Too close to call''",
+        "``Youthquake''",
+        "Questioning if leader will resign",
+        "``\\ldots remains to be seen''",
+        "``A long night''",
+        "``Portillo moment''",
+        "``Michael Foot''",
+        "Cutting to an incoming result, but nothing happens",
+        "``Fake news''",
+        "``The keys to Downing Street/Number 10''",
+        "Interview upstaged by joke candidate in background",
+        "``A night to remember''",
+        "``A deal with the DUP''",
+        "Recount",
+        "Pundit links weather to turnout",
+        "Live footage of exterior of party leader's house",
+        "Party leader loses their seat",
+        "Cabinet/shadow cabinet minister loses their seat",
+        "Former party leader loses their seat",
+        "MP of \\textgreater 25 years standing for a major party loses their seat",
+        "``Across the country''",
+        "Labour makes a gain",
+        "``Get on with Brexit''",
+        "``Brussels will be watching''",
+        "``The next 5 years''",
+        "Someone insists something isn't about Brexit",
+        "``Election fatigue''",
+        "Reference to losing deposits",
+        "Tories gain a Lib Dem seat",
+        "Newcastle Upon Tyne Central is first to declare",
+        "``The only poll that counts is the one at the ballot box''",
+        "Someone mispronounces ``Plaid Cymru''",
+        "Dominic Cummings visible on live TV",
+        "Dianne Abbot is interviewed",
+        "``End of austerity''",
+        "``First time in X years''",
+        "Snow",
+        "``Borrow billions''",
+        "``Let me be clear\ldots ''"
+        ]
 
 def create_table(size, table, name="bingo.tex", directory=''):
     table = table[:]
     with open(os.path.join(directory,name), 'w') as f:
         f.write(r"""\documentclass[a4paper,12pt]{article}
 \usepackage{tabularx}
-\title{Apprehended Swalies bingo}
-\author{Murray Colpman, Tom Leese, Alice Hawke}
+\title{2019 General Election bingo}
+\author{Murray Colpman, Harry Jeffrey, James Peach, Dan Playle, Matt Cummins}
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{2}
 \begin{document}
@@ -211,19 +84,11 @@ def create_table(size, table, name="bingo.tex", directory=''):
         f.close()
         create_pdf(name, directory)
 
-def create_contestant_table(size, prefix='', directory=''):
-    create_table(size, contestants, name=prefix+'.tex', directory=directory)
-
-def create_interview_table(size, prefix='', directory=''):
-    create_table(size, interviews, name=prefix+'.tex', directory=directory)
-
-def create_task_table(size, prefix='', directory=''):
-    create_table(size, tasks, name=prefix+'.tex', directory=directory)
+def create_phrases_table(size, prefix='', directory=''):
+    create_table(size, phrases, name=prefix+'.tex', directory=directory)
 
 def create_all_tables(size, prefix='', suffix='', directory=''):
-    create_contestant_table(size, prefix=prefix + '_contestants' + suffix, directory=directory)
-    create_interview_table(size, prefix=prefix + '_interviews' + suffix, directory=directory)
-    create_task_table(size, prefix=prefix + '_tasks' + suffix, directory=directory)
+    create_phrases_table(size, prefix=prefix + '_phrases' + suffix, directory=directory)
 
 
 def create_tex_files(args):
@@ -231,38 +96,24 @@ def create_tex_files(args):
     players = args.players if args.players else None
     filename = args.filename if args.filename else ''
 
-    contestantsSuffix = ''
-    interviewsSuffix = ''
-    tasksSuffix = ''
+    phrasesSuffix = ''
     if (not tables is None) and len(tables) != 1:
-        contestantsSuffix = 'contestants'
-        interviewsSuffix = 'interviews'
-        tasksSuffix = 'tasks'
+        phrasesSuffix = 'phrases'
         if not players is None:
-            contestantsSuffix = '_' + contestantsSuffix
-            interviewsSuffix = '_' + interviewsSuffix
-            tasksSuffix = '_' + tasksSuffix
+            phrasesSuffix = '_' + phrasesSuffix
     if players is None:
         if tables is None:
             create_all_tables(args.size, suffix=filename, directory=args.output)
         else:
-            if 'contestants' in tables:
-                create_contestant_table(args.size, prefix=contestantsSuffix + filename, directory=args.output)
-            if 'interviews' in tables:
-                create_interview_table(args.size, prefix=interviewsSuffix + filename, directory=args.output)
-            if 'tasks' in tables:
-                create_task_table(args.size, prefix=tasksSuffix + filename, directory=args.output)
+            if 'phrases' in tables:
+                create_phrases_table(args.size, prefix=phrasesSuffix + filename, directory=args.output)
     else:
         for p in players:
             if tables is None:
                 create_all_tables(args.size, prefix=p+'_' + filename, directory=args.output)
             else:
-                if 'contestants' in tables:
-                    create_contestant_table(args.size, prefix=p + contestantsSuffix + filename, directory=args.output)
-                if 'interviews' in tables:
-                    create_interview_table(args.size, prefix=p + interviewsSuffix + filename, directory=args.output)
-                if 'tasks' in tables:
-                    create_task_table(args.size, prefix=p + tasksSuffix + filename, directory=args.output)
+                if 'phrases' in tables:
+                    create_phrases_table(args.size, prefix=p + phrasesSuffix + filename, directory=args.output)
 
 def create_pdf(texfile, directory):
     if directory == '':
@@ -273,7 +124,7 @@ def create_pdf(texfile, directory):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--players', nargs='+', help='Names of the bingo players.')
-parser.add_argument('-t', '--tables', choices=['contestants', 'interviews', 'tasks'], nargs='+', help='The tables to generate.')
+parser.add_argument('-t', '--tables', choices=['phrases'], nargs='+', help='The tables to generate.')
 parser.add_argument('-s', '--size', nargs='?', help='Size of the table to generate. Recommend: 3.', type=int, default=3)
 parser.add_argument('-o', '--output', help='Output files to a specific directory.', default='')
 parser.add_argument('-f', '--filename', help='Extra suffix for filename (to be placed after player and table name but before extension)')
